@@ -17,6 +17,7 @@ sonarqube {
 tasks.jacocoTestReport {
     reports {
         xml.isEnabled = true
+        xml.destination = File("$buildDir/reports/jacoco/report.xml")
     }
 }
 
