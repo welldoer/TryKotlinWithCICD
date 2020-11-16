@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.4.10"
     id("org.sonarqube") version "3.0"
+    jacoco
 }
 
 sonarqube {
@@ -11,6 +12,21 @@ sonarqube {
         property("sonar.organization", "welldoer-github")
         property("sonar.host.url", "https://sonarcloud.io")
     }
+}
+
+tasks.withType(JacocoReport::class.java).all {
+    reports {
+        xml.isEnabled = true
+        xml.destination = File("$buildDir/reports/jacoco/report.xml")
+    }
+}
+
+tasks.withType<Test> {
+    jacoco {
+        toolVersion = "0.8.3"
+        reportsDir = file("$buildDir/reports/jacoco")
+    }
+    finalizedBy("jacocoTestReport")
 }
 
 group = "net.blogjava.welldoer"
