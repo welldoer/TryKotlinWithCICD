@@ -14,19 +14,10 @@ sonarqube {
     }
 }
 
-tasks.withType(JacocoReport::class.java).all {
+tasks.jacocoTestReport {
     reports {
         xml.isEnabled = true
-        xml.destination = File("$buildDir/reports/jacoco/report.xml")
     }
-}
-
-tasks.withType<Test> {
-    jacoco {
-        toolVersion = "0.8.3"
-        reportsDir = file("$buildDir/reports/jacoco")
-    }
-    finalizedBy("jacocoTestReport")
 }
 
 group = "net.blogjava.welldoer"
