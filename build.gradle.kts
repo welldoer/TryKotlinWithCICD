@@ -34,6 +34,9 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+    jacoco {
+        reportsDir = file("$buildDir/reports/jacoco")
+    }
 }
 
 tasks.withType<KotlinCompile>() {
