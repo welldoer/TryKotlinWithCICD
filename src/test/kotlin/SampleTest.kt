@@ -4,6 +4,6 @@ import kotlin.test.assertEquals
 class SampleTest {
     @Test
     fun sample() {
-        assertEquals(8, Sample().sum(3, 5))
+        assertEquals(8, Sample().calc(3, 5))
     }
 }
