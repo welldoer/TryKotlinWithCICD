@@ -15,6 +15,7 @@ sonarqube {
 }
 
 tasks.jacocoTestReport {
+    dependsOn(tasks.test)
     reports {
         xml.isEnabled = true
     }
@@ -33,7 +34,6 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
-    finalizedBy("jacocoTestReport")
 }
 
 tasks.withType<KotlinCompile>() {
