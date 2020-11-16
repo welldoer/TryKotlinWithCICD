@@ -17,7 +17,6 @@ sonarqube {
 tasks.jacocoTestReport {
     reports {
         xml.isEnabled = true
-        xml.destination = File("$buildDir/reports/jacoco/report.xml")
     }
 }
 
@@ -34,9 +33,7 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
-    jacoco {
-        reportsDir = file("$buildDir/reports/jacoco")
-    }
+    finalizedBy("jacocoTestReport")
 }
 
 tasks.withType<KotlinCompile>() {
