@@ -1,5 +1,6 @@
 package tdd.domain
 
+import tdd.exception.InsufficientBalanceException
 import tdd.exception.StatusNotAllowedException
 import tdd.exception.ValueToOperationException
 import tdd.repository.AccountRepository
@@ -24,7 +25,9 @@ data class Account(
     }
 
     override fun withdraw(repository: AccountRepository, value: Double) {
-        TODO("Not yet implemented")
+        validateAmount(value)
+        amount -= value
+        repository.save(this)
     }
 
     private fun validateValue(value: Double) {
@@ -35,6 +38,11 @@ data class Account(
     private fun validateStatus() {
         if (status != Status.ACTIVE)
             throw StatusNotAllowedException("DEPOSIT", status.name)
+    }
+
+    private fun validateAmount(value: Double) {
+        if (amount < value)
+            throw InsufficientBalanceException(amount, value)
     }
 
     enum class Status {

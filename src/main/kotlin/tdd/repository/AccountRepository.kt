@@ -8,5 +8,4 @@ interface AccountRepository {
 
     fun find(id: String): Account
 
-//    fun delete(id: String)
 }

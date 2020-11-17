@@ -5,6 +5,7 @@ import io.mockk.junit5.MockKExtension
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import tdd.exception.InsufficientBalanceException
 import tdd.exception.StatusNotAllowedException
 import tdd.exception.ValueToOperationException
 import tdd.repository.AccountRepository
@@ -50,4 +51,23 @@ class AccountTest {
             account.deposit(repository, -10.0)
         }
     }
+
+    @Test
+    fun `should withdraw any value an account`() {
+        val account = Account()
+        account.deposit(repository, 100.0)
+        account.withdraw(repository, 100.0)
+
+        verify(exactly = 2) { repository.save(account) }
+    }
+
+    @Test
+    fun `amount the account shouldn't be negative`() {
+        val account = Account()
+
+        assertFailsWith<InsufficientBalanceException> {
+            account.withdraw(repository, 100.0)
+        }
+    }
+
 }
