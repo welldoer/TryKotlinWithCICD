@@ -1,6 +1,7 @@
 package tdd.domain
 
 import tdd.exception.StatusNotAllowedException
+import tdd.exception.ValueToOperationException
 import tdd.repository.AccountRepository
 import java.util.*
 
@@ -16,6 +17,7 @@ data class Account(
     }
 
     override fun deposit(repository: AccountRepository, value: Double) {
+        validateValue(value)
         validateStatus()
         amount += value
         repository.save(this)
@@ -23,6 +25,11 @@ data class Account(
 
     override fun withdraw(repository: AccountRepository, value: Double) {
         TODO("Not yet implemented")
+    }
+
+    private fun validateValue(value: Double) {
+        if (value <= 0)
+            throw ValueToOperationException("Value $value isn't allowed to execute this operation!")
     }
 
     private fun validateStatus() {

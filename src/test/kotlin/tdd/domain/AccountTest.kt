@@ -6,6 +6,7 @@ import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import tdd.exception.StatusNotAllowedException
+import tdd.exception.ValueToOperationException
 import tdd.repository.AccountRepository
 import kotlin.test.assertFailsWith
 
@@ -38,6 +39,15 @@ class AccountTest {
 
         assertFailsWith<StatusNotAllowedException> {
             account.deposit(repository, 10.0)
+        }
+    }
+
+    @Test
+    fun `shouldn't deposit when the value is negative`() {
+        val account = Account()
+
+        assertFailsWith<ValueToOperationException> {
+            account.deposit(repository, -10.0)
         }
     }
 }
