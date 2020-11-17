@@ -5,7 +5,9 @@ import io.mockk.junit5.MockKExtension
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import tdd.exception.StatusNotAllowedException
 import tdd.repository.AccountRepository
+import kotlin.test.assertFailsWith
 
 @ExtendWith(MockKExtension::class)
 class AccountTest {
@@ -20,5 +22,22 @@ class AccountTest {
         account.create(repository)
 
         verify(exactly = 1) { repository.save(account) }
+    }
+
+    @Test
+    fun `should deposit any value an account`() {
+        val account = Account()
+        account.deposit(repository, 10.0)
+
+        verify(exactly = 1) { repository.save(account) }
+    }
+
+    @Test
+    fun `shouldn't deposit when status is inactive`() {
+        val account = Account(status = Account.Status.INACTIVE)
+
+        assertFailsWith<StatusNotAllowedException> {
+            account.deposit(repository, 10.0)
+        }
     }
 }
