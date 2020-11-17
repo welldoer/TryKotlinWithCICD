@@ -22,8 +22,8 @@ class Topic2 {
         // a += 1    // val cannot be reassigned
         b += 1
 
-        assertEquals(a, 1)
-        assertEquals(b, 3)
+        assertEquals(1, a)
+        assertEquals(3, b)
     }
 
 }
